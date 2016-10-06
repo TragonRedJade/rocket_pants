@@ -5,7 +5,7 @@ require 'active_support/core_ext/string/inflections'
 require 'rocket_pants/errors'
 
 require 'api_smith'
-require 'will_paginate/collection'
+# require 'will_paginate/collection'
 
 module RocketPants
   # Implements a generalised base for building clients on top of
@@ -30,11 +30,11 @@ module RocketPants
   #   end
   #
   class Client < APISmith::Base
-    
+
     class_attribute :_version, :_actual_endpoint
-    
+
     class << self
-      
+
       # @overload version
       #   @return [Integer] the current API version number for this client
       # @overload version(number)
@@ -50,7 +50,7 @@ module RocketPants
           number
         end
       end
-      
+
       alias _original_endpoint endpoint
 
       # Sets the endpoint url, taking into account the version number as a
@@ -59,9 +59,9 @@ module RocketPants
         self._actual_endpoint = path
         _original_endpoint File.join(*[_version, path].compact.map(&:to_s))
       end
-      
+
     end
-    
+
     # Initializes a new client, optionally setting up the host for this client.
     # @param [Hash] options general client options
     # @option options [String] :api_host the overriden base_uri host for this client instance.
@@ -72,9 +72,9 @@ module RocketPants
         add_request_options! :base_uri => HTTParty.normalize_base_uri(options[:api_host])
       end
     end
-    
+
     private
-    
+
     # Give a response hash from the api, will transform it into
     # the correct data type.
     # @param [Hash] response the incoming response
@@ -91,7 +91,7 @@ module RocketPants
         objects
       end
     end
-    
+
     # Returns an API response wrapped in a will_paginate collection
     # using the pagination key in the response container to set up
     # the current number of total entries and page details.
@@ -105,7 +105,7 @@ module RocketPants
         collection.total_entries = pagination["count"]
       end
     end
-    
+
     # Finds and uses the transformer for a given incoming object to
     # unpack it into a useful data type.
     # @param [Hash, Array<Hash>] object the response object to unpack
@@ -116,7 +116,7 @@ module RocketPants
       transformer = options[:transformer] || options[:as]
       transformer ? transformer.call(object) : object
     end
-    
+
     # Processes a given response to check for the presence of an error,
     # either by the response not being a hash (e.g. it is returning HTML instead
     # JSON or HTTParty couldn't parse the response).
@@ -137,6 +137,6 @@ module RocketPants
         raise klass.new(*error_messages)
       end
     end
-    
+
   end
 end

@@ -3,10 +3,10 @@ require 'spec_helper'
 describe RocketPants::Base, 'will_paginate integration', :integration => true, :target => 'will_paginate' do
   include ControllerHelpers
 
-  before :all do
-    require 'will_paginate/active_record'
-    require 'will_paginate/collection'
-  end
+  # before :all do
+  #   require 'will_paginate/active_record'
+  #   require 'will_paginate/collection'
+  # end
 
   describe 'on models' do
 
@@ -62,7 +62,7 @@ describe RocketPants::Base, 'will_paginate integration', :integration => true, :
       content.should have_key(:count)
       content[:count].should == 10
     end
-    
+
   end
 
 end
